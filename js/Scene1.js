@@ -1,12 +1,8 @@
-// import Phaser from './phaser.js'
-// import Player from './player.js'
 
 class Scene1 extends Phaser.Scene {
 
     preload() {
-        this.load.spritesheet(
-          "player",
-          "../assets/spritesheets/0x72-industrial-player-32px-extruded.png",
+        this.load.spritesheet("player","../assets/spritesheets/0x72-industrial-player-32px-extruded.png",
           {
             frameWidth: 32,
             frameHeight: 32,
@@ -16,17 +12,17 @@ class Scene1 extends Phaser.Scene {
         );
         this.load.image("spike", "../assets/images/0x72-industrial-spike.png");
         this.load.image("tiles", "../assets/tilesets/0x72-industrial-tileset-32px-extruded.png");
-        this.load.tilemapTiledJSON("map", "../assets/tilemaps/platformer.json");
+        this.load.tilemapTiledJSON("map", "../assets/tilemaps/platformer-simple.json");
       }
     
 
       create() {
         this.isPlayerDead = false;
-    
+        
         const map = this.make.tilemap({ key: "map" });
-        const tiles = map.addTilesetImage("../assets/tilesets/tilesets0x72-industrial-tileset-32px-extruded.png", "tiles");
-    
-        map.createDynamicLayer("Background", tiles);
+        const tiles = map.addTilesetImage("0x72-industrial-tileset-32px-extruded", "tiles");
+
+        this.backgroundLayer = map.createDynamicLayer("Background", tiles);
         this.groundLayer = map.createDynamicLayer("Ground", tiles);
         map.createDynamicLayer("Foreground", tiles);
     
@@ -61,33 +57,28 @@ class Scene1 extends Phaser.Scene {
     
         this.cameras.main.startFollow(this.player.sprite);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    
-        this.marker = new MouseTileMarker(this, map);
+        this.backgroundLayer.setScrollFactor(.5)
+        // this.marker = new MouseTileMarker(this, map);
     
         // Help text that has a "fixed" position on the screen
         this.add
-          .text(16, 16, "Arrow/WASD to move & jump", {
+          .text(16, 16, "Arrow/WASD to move & jump \n Try to reach the end!", {
             font: "18px monospace",
             fill: "#000000",
             padding: { x: 20, y: 10 },
             backgroundColor: "#ffffff"
           })
-          .setScrollFactor(0);
+          .setScrollFactor(1);
       }
     
       update(time, delta) {
         if (this.isPlayerDead) return;
     
-        this.marker.update();
+        // this.marker.update();
         this.player.update();
     
         // Add a colliding tile at the mouse position
-        const pointer = this.input.activePointer;
-        const worldPoint = pointer.positionToCamera(this.cameras.main);
-        if (pointer.isDown) {
-          const tile = this.groundLayer.putTileAtWorldXY(6, worldPoint.x, worldPoint.y);
-          tile.setCollision(true);
-        }
+        // const pointer = this.input.activePointer;
     
         if (
           this.player.sprite.y > this.groundLayer.height ||
@@ -102,7 +93,7 @@ class Scene1 extends Phaser.Scene {
     
           // Freeze the player to leave them on screen while fading but remove the marker immediately
           this.player.freeze();
-          this.marker.destroy();
+          // this.marker.destroy();
     
           cam.once("camerafadeoutcomplete", () => {
             this.player.destroy();

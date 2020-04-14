@@ -1,6 +1,6 @@
 class Scene2 extends Phaser.Scene {
     constructor(){
-        super("playGame")
+        super("Level 2")
     }
 
     create (){
