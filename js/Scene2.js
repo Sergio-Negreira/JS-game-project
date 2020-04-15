@@ -11,10 +11,17 @@ class Scene2 extends Phaser.Scene {
         );
         this.load.image("spike", "../assets/images/0x72-industrial-spike.png");
         this.load.image("tiles", "../assets/tilesets/0x72-industrial-tileset-32px-extruded.png");
-        this.load.tilemapTiledJSON("map", "../assets/tilemaps/singlemap.json.json");
+        this.load.tilemapTiledJSON("map", "../assets/tilemaps/singlemap.json");
       }
-    
-
+      platFall(sprite,tile, fallingPlats){
+        setTimeout(()=>{
+          window.tile=tile
+          setInterval(()=>{
+            fallingPlats.y++
+          }, 35)
+          console.log(sprite,tile, fallingPlats)
+        }, 500)
+      }
       create() {
         this.isPlayerDead = false;
         
@@ -23,7 +30,9 @@ class Scene2 extends Phaser.Scene {
         //vars for different layers in Tiled map
         this.backgroundLayer = map.createDynamicLayer("Background", tiles);
         this.groundLayer = map.createDynamicLayer("Ground", tiles);
-        map.createDynamicLayer("Foreground", tiles);
+        this.fallingPlats = map.createDynamicLayer("fallingPlats", tiles)
+
+        map.createDynamicLayer("Foreground", tiles).setDepth(2);
     
         // "Spawn Point" object in the Tiled map
         const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
@@ -31,9 +40,22 @@ class Scene2 extends Phaser.Scene {
         
         // Collide the player against the ground layer - here we are grabbing the sprite property from
         // the player (since the Player class is not a Phaser.Sprite).
-        this.groundLayer.setCollisionByProperty({ collides: true });
+        this.groundLayer.setCollisionByProperty({ collides: true })
+        this.fallingPlats.setCollisionByProperty({ collides: true });
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
-    
+        this.physics.world.addCollider(this.player.sprite, this.fallingPlats,(x,y)=>this.platFall(x,y,this.fallingPlats))
+
+
+
+        // console.log(this)
+
+        // this.fallingPlats = this.physics.add.group({
+          //   key: 'plat',
+          //   setAllowGravity:true, 
+          // })
+          // this.physics.world.overlap(this.player.sprite,this.fallingPlats,(e)=> console.log(e))
+        
+  
         // spike hitbox
         this.spikeGroup = this.physics.add.staticGroup();
         this.groundLayer.forEachTile(tile => {
@@ -56,14 +78,24 @@ class Scene2 extends Phaser.Scene {
     
         // instructions text
         this.add
-          .text(16, 16, "Don't touch the spikes!", {
+          .text(1500, 32, "Don't touch the spikes!", {
             font: "18px monospace",
             fill: "#000000",
             padding: { x: 20, y: 10 },
             backgroundColor: "#ffffff"
           })
           .setScrollFactor(1);
-      }
+      
+        this.add
+          .text(16, 16, "Arrow/WASD to move & jump \n Try to reach the end!", {
+            font: "18px monospace",
+            fill: "#000000",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#ffffff"
+          })
+          .setScrollFactor(1);
+       }
+      
     
       update() {
         if (this.isPlayerDead) return;
@@ -75,16 +107,16 @@ class Scene2 extends Phaser.Scene {
           this.player.sprite.y > this.groundLayer.height ||
           this.physics.world.overlap(this.player.sprite, this.spikeGroup)
         ) {
-          // Flag that the player is dead so that we can stop update from running in the future
+          
           this.isPlayerDead = true;
     
           const cam = this.cameras.main;
           cam.shake(100, 0.05);
           cam.fade(250, 0, 0, 0);
     
-          // Freeze the player to leave them on screen while fading but remove the marker immediately
+          
           this.player.freeze();
-          // this.marker.destroy();
+          
     
           cam.once("camerafadeoutcomplete", () => {
             this.player.destroy();

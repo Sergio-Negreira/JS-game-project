@@ -11,10 +11,13 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 1000 }
-        }
+            gravity: { y: 1000 },
+        },
+        matter: {
+            debug: true,
+            gravity: { y: 0.5 }
+        },
     },
-    debuger: true
 }
 
 const game = new Phaser.Game(config)
