@@ -7,13 +7,14 @@ const config = {
     height: 600,
     backgroundColor: '#1d212d',
     pixelArt: false,
-    scene: Scene1,
+    scene: [Scene1],
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 1000 }
         }
-    }
+    },
+    debuger: true
 }
 
 const game = new Phaser.Game(config)

@@ -18,7 +18,6 @@ class Scene1 extends Phaser.Scene {
 
       create() {
         this.isPlayerDead = false;
-        
         const map = this.make.tilemap({ key: "map" });
         const tiles = map.addTilesetImage("0x72-industrial-tileset-32px-extruded", "tiles");
 
@@ -29,7 +28,23 @@ class Scene1 extends Phaser.Scene {
         // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
         const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
         this.player = new Player(this, spawnPoint.x, spawnPoint.y);
-    
+
+
+        const nextLevel = map.findObject("Objects", obj => obj.name === "Next Level");
+        const celebrateSensor = this.matter.add.rectangle(
+          nextLevel.x + nextLevel.width / 2,
+          nextLevel.y + nextLevel.height / 2,
+          nextLevel.width,
+          nextLevel.height,
+          {isSensor: true,isStatic: true});
+        this.unsubscribeCelebrate = this.matterCollision.addOnCollideStart({
+          objectA: this.player.sprite,
+          objectB: celebrateSensor,
+          callback: this.onPlayerWin,
+          context: this
+        });
+        
+
         // Collide the player against the ground layer - here we are grabbing the sprite property from
         // the player (since the Player class is not a Phaser.Sprite).
         this.groundLayer.setCollisionByProperty({ collides: true });
@@ -39,21 +54,21 @@ class Scene1 extends Phaser.Scene {
         // if we let arcade physics treat the spikes as colliding, the player will collide while the
         // sprite is hovering over the spikes. We'll remove the spike tiles and turn them into sprites
         // so that we give them a more fitting hitbox.
-        this.spikeGroup = this.physics.add.staticGroup();
-        this.groundLayer.forEachTile(tile => {
-          if (tile.index === 77) {
-            const spike = this.spikeGroup.create(tile.getCenterX(), tile.getCenterY(), "spike");
+        // this.spikeGroup = this.physics.add.staticGroup();
+        // this.groundLayer.forEachTile(tile => {
+        //   if (tile.index === 77) {
+        //     const spike = this.spikeGroup.create(tile.getCenterX(), tile.getCenterY(), "spike");
     
-            // The map has spikes rotated in Tiled (z key), so parse out that angle to the correct body
-            // placement
-            spike.rotation = tile.rotation;
-            if (spike.angle === 0) spike.body.setSize(32, 6).setOffset(0, 26);
-            else if (spike.angle === -90) spike.body.setSize(6, 32).setOffset(26, 0);
-            else if (spike.angle === 90) spike.body.setSize(6, 32).setOffset(0, 0);
+        //     // The map has spikes rotated in Tiled (z key), so parse out that angle to the correct body
+        //     // placement
+        //     spike.rotation = tile.rotation;
+        //     if (spike.angle === 0) spike.body.setSize(32, 6).setOffset(0, 26);
+        //     else if (spike.angle === -90) spike.body.setSize(6, 32).setOffset(26, 0);
+        //     else if (spike.angle === 90) spike.body.setSize(6, 32).setOffset(0, 0);
     
-            this.groundLayer.removeTileAt(tile.x, tile.y);
-          }
-        });
+        //     this.groundLayer.removeTileAt(tile.x, tile.y);
+        //   }
+        // });
     
         this.cameras.main.startFollow(this.player.sprite);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -69,6 +84,11 @@ class Scene1 extends Phaser.Scene {
             backgroundColor: "#ffffff"
           })
           .setScrollFactor(1);
+      }
+
+      onPlayerWin() {
+        // Celebrate only once
+        console.log(this.unsubscribeCelebrate())
       }
     
       update(time, delta) {
@@ -100,6 +120,11 @@ class Scene1 extends Phaser.Scene {
             this.scene.restart();
           });
         }
+        // console.log(this.player)
+
+        
+
+
       }
     }
     
