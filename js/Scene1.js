@@ -30,19 +30,19 @@ class Scene1 extends Phaser.Scene {
         this.player = new Player(this, spawnPoint.x, spawnPoint.y);
 
 
-        const nextLevel = map.findObject("Objects", obj => obj.name === "Next Level");
-        const celebrateSensor = this.matter.add.rectangle(
-          nextLevel.x + nextLevel.width / 2,
-          nextLevel.y + nextLevel.height / 2,
-          nextLevel.width,
-          nextLevel.height,
-          {isSensor: true,isStatic: true});
-        this.unsubscribeCelebrate = this.matterCollision.addOnCollideStart({
-          objectA: this.player.sprite,
-          objectB: celebrateSensor,
-          callback: this.onPlayerWin,
-          context: this
-        });
+        // const nextLevel = map.findObject("Objects", obj => obj.name === "Next Level");
+        // const celebrateSensor = this.matter.add.rectangle(
+        //   nextLevel.x + nextLevel.width / 2,
+        //   nextLevel.y + nextLevel.height / 2,
+        //   nextLevel.width,
+        //   nextLevel.height,
+        //   {isSensor: true,isStatic: true});
+        // this.unsubscribeCelebrate = this.matterCollision.addOnCollideStart({
+        //   objectA: this.player.sprite,
+        //   objectB: celebrateSensor,
+        //   callback: this.onPlayerWin,
+        //   context: this
+        // });
         
 
         // Collide the player against the ground layer - here we are grabbing the sprite property from

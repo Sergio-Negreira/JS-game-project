@@ -11,7 +11,7 @@ class Scene2 extends Phaser.Scene {
         );
         this.load.image("spike", "../assets/images/0x72-industrial-spike.png");
         this.load.image("tiles", "../assets/tilesets/0x72-industrial-tileset-32px-extruded.png");
-        this.load.tilemapTiledJSON("map", "../assets/tilemaps/project level2.json");
+        this.load.tilemapTiledJSON("map", "../assets/tilemaps/singlemap.json.json");
       }
     
 
@@ -20,12 +20,12 @@ class Scene2 extends Phaser.Scene {
         
         const map = this.make.tilemap({ key: "map" });
         const tiles = map.addTilesetImage("0x72-industrial-tileset-32px-extruded", "tiles");
-
+        //vars for different layers in Tiled map
         this.backgroundLayer = map.createDynamicLayer("Background", tiles);
         this.groundLayer = map.createDynamicLayer("Ground", tiles);
         map.createDynamicLayer("Foreground", tiles);
     
-        // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
+        // "Spawn Point" object in the Tiled map
         const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
         this.player = new Player(this, spawnPoint.x, spawnPoint.y);
         
@@ -34,17 +34,13 @@ class Scene2 extends Phaser.Scene {
         this.groundLayer.setCollisionByProperty({ collides: true });
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
     
-        // The map contains a row of spikes. The spike only take a small sliver of the tile graphic, so
-        // if we let arcade physics treat the spikes as colliding, the player will collide while the
-        // sprite is hovering over the spikes. We'll remove the spike tiles and turn them into sprites
-        // so that we give them a more fitting hitbox.
+        // spike hitbox
         this.spikeGroup = this.physics.add.staticGroup();
         this.groundLayer.forEachTile(tile => {
           if (tile.index === 77) {
             const spike = this.spikeGroup.create(tile.getCenterX(), tile.getCenterY(), "spike");
     
-            // The map has spikes rotated in Tiled (z key), so parse out that angle to the correct body
-            // placement
+            // catches rotated spikes
             spike.rotation = tile.rotation;
             if (spike.angle === 0) spike.body.setSize(32, 6).setOffset(0, 26);
             else if (spike.angle === -90) spike.body.setSize(6, 32).setOffset(26, 0);
@@ -53,15 +49,14 @@ class Scene2 extends Phaser.Scene {
             this.groundLayer.removeTileAt(tile.x, tile.y);
           }
         });
-    
+        // camera follow
         this.cameras.main.startFollow(this.player.sprite);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.backgroundLayer.setScrollFactor(.5)
-        // this.marker = new MouseTileMarker(this, map);
     
-        // Help text that has a "fixed" position on the screen
+        // instructions text
         this.add
-          .text(16, 16, "Arrow/WASD to move & jump \n Try to reach the end!", {
+          .text(16, 16, "Don't touch the spikes!", {
             font: "18px monospace",
             fill: "#000000",
             padding: { x: 20, y: 10 },
@@ -70,14 +65,11 @@ class Scene2 extends Phaser.Scene {
           .setScrollFactor(1);
       }
     
-      update(time, delta) {
+      update() {
         if (this.isPlayerDead) return;
     
-        // this.marker.update();
         this.player.update();
     
-        // Add a colliding tile at the mouse position
-        // const pointer = this.input.activePointer;
     
         if (
           this.player.sprite.y > this.groundLayer.height ||

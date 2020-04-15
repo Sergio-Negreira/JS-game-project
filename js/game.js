@@ -7,7 +7,7 @@ const config = {
     height: 600,
     backgroundColor: '#1d212d',
     pixelArt: false,
-    scene: [Scene1],
+    scene: [Scene2],
     physics: {
         default: 'arcade',
         arcade: {
