@@ -1,5 +1,7 @@
 class Scene2 extends Phaser.Scene {
-
+  constructor (){
+    super ("playGame")
+}
     preload() {
         this.load.spritesheet("player","../assets/spritesheets/0x72-industrial-player-32px-extruded.png",
           {
@@ -12,25 +14,29 @@ class Scene2 extends Phaser.Scene {
         this.load.image("spike", "../assets/images/0x72-industrial-spike.png");
         this.load.image("tiles", "../assets/tilesets/0x72-industrial-tileset-32px-extruded.png");
         this.load.tilemapTiledJSON("map", "../assets/tilemaps/singlemap.json");
+        this.load.audio("death","../assets/audio/death.mp3")
+      
       }
+
       platFall(sprite,tile, fallingPlats){
         setTimeout(()=>{
           window.tile=tile
           setInterval(()=>{
             fallingPlats.y++
-          }, 35)
-          console.log(sprite,tile, fallingPlats)
-        }, 500)
+          }, 15)
+        }, 1000)
       }
+
       create() {
         this.isPlayerDead = false;
-        
+        // this.funcNextLevel()
         const map = this.make.tilemap({ key: "map" });
         const tiles = map.addTilesetImage("0x72-industrial-tileset-32px-extruded", "tiles");
         //vars for different layers in Tiled map
         this.backgroundLayer = map.createDynamicLayer("Background", tiles);
         this.groundLayer = map.createDynamicLayer("Ground", tiles);
         this.fallingPlats = map.createDynamicLayer("fallingPlats", tiles)
+        this.nextLevel = map.createDynamicLayer("nextLevel", tiles);
 
         map.createDynamicLayer("Foreground", tiles).setDepth(2);
     
@@ -42,20 +48,13 @@ class Scene2 extends Phaser.Scene {
         // the player (since the Player class is not a Phaser.Sprite).
         this.groundLayer.setCollisionByProperty({ collides: true })
         this.fallingPlats.setCollisionByProperty({ collides: true });
+        this.nextLevel.setCollisionByProperty({ collides: true });
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
         this.physics.world.addCollider(this.player.sprite, this.fallingPlats,(x,y)=>this.platFall(x,y,this.fallingPlats))
-
-
-
-        // console.log(this)
-
-        // this.fallingPlats = this.physics.add.group({
-          //   key: 'plat',
-          //   setAllowGravity:true, 
-          // })
-          // this.physics.world.overlap(this.player.sprite,this.fallingPlats,(e)=> console.log(e))
+        // this.physics.world.addCollider(this.player.sprite, this.nextLevel)
         
-  
+        // this.physics.add.overlap(this.player.sprite, this.nextLevel, this.funcNextLevel, null, this)
+
         // spike hitbox
         this.spikeGroup = this.physics.add.staticGroup();
         this.groundLayer.forEachTile(tile => {
@@ -94,22 +93,31 @@ class Scene2 extends Phaser.Scene {
             backgroundColor: "#ffffff"
           })
           .setScrollFactor(1);
-       }
-      
-    
+       
+          this.deathbyte=this.sound.add("death", {volume:.5})
+       
+          
+        
+        }
+
+        // funcNextLevel (player,nextLevel){
+        //  this.scene.start("Menu")
+        // }
+        
+
       update() {
         if (this.isPlayerDead) return;
     
         this.player.update();
-    
-    
+        
         if (
           this.player.sprite.y > this.groundLayer.height ||
           this.physics.world.overlap(this.player.sprite, this.spikeGroup)
         ) {
           
           this.isPlayerDead = true;
-    
+          this.deathbyte.play({loop:false})
+
           const cam = this.cameras.main;
           cam.shake(100, 0.05);
           cam.fade(250, 0, 0, 0);
@@ -124,5 +132,10 @@ class Scene2 extends Phaser.Scene {
           });
         }
       }
+
+
+
+      
+
     }
     

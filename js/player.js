@@ -33,7 +33,12 @@ class Player {
       d: D
     });
   }
-
+  preload(){
+    this.load.audio("jumpsound","../assets/audio/jumpsound.mp3")
+  }
+  create (){
+    this.jumpsound=this.sound.add("jumpsound", {volume:.5})
+  }
   freeze() {
     this.sprite.body.moves = false;
   }
@@ -54,7 +59,9 @@ class Player {
     }
 
     if (onGround && (keys.up.isDown || keys.w.isDown)) {
-      sprite.setVelocityY(-500);
+      sprite.setVelocityY(-500)
+      // this.jumpsound.play({loop:false})
+
     }
 
     if (onGround) {
