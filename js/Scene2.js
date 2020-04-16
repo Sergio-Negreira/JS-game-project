@@ -94,7 +94,7 @@ class Scene2 extends Phaser.Scene {
           })
           .setScrollFactor(1);
        
-          this.deathbyte=this.sound.add("death", {volume:.5})
+          this.deathbyte=this.sound.add("death", {volume:2})
        
           
         

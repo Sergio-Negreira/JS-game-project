@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-
-
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" href="style.css" />
+        <title>.[runner] game</title>
     </head>
     <body>
-        
+        <video autoplay muted loop id="myVideo">
+            <source src="/assets/images/FormalEllipticalHochstettersfrog-mobile.mp4" type="video/mp4">
+          </video>
+        <div>
+        <canvas id="gamebox">
+            <script type='text/javascript' src='./js/phaser.js'></script>
+            <script src="./js/phaser-matter-collision-plugin.min.js"></script>
+            <script type='text/javascript' src='./js/Menu.js'></script>
+            <script type='text/javascript' src='./js/Scene2.js'></script>
+            <script type='text/javascript' src='./js/Scene1.js'></script>
+            <script type='text/javascript' src='./js/player.js'></script>
+            <script type='text/javascript' src='./assets/tilemaps/platformer-simple.json'></script>
+            <script type='text/javascript' src='./js/game.js'></script>
+        </canvas>
+         </div>
     </body>
-    <div class="gamebox">
-        
-        <script type='text/javascript' src='./js/phaser.js'></script>
-        <script src="./js/phaser-matter-collision-plugin.min.js"></script>
-        <script type='text/javascript' src='./js/Menu.js'></script>
-        <script type='text/javascript' src='./js/Scene2.js'></script>
-        <script type='text/javascript' src='./js/Scene1.js'></script>
-        <script type='text/javascript' src='./js/player.js'></script>
-        <script type='text/javascript' src='./assets/tilemaps/platformer-simple.json'></script>
-        <script type='text/javascript' src='./js/game.js'></script>
-    </div>
+
 </html>

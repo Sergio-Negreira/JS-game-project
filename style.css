@@ -1,0 +1,26 @@
+* {
+    border: 1px solid red
+}
+body {
+    font-family: 'Proxima nova';
+    background-color: #616e80;
+}
+
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index:-5;
+  }
+
+
+#gamebox {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+ 
+}

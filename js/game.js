@@ -15,6 +15,7 @@ const config = {
             gravity: { y: 0.5 }
         },
     },
+    canvas: document.querySelector('canvas')
 }
 
 const game = new Phaser.Game(config)
