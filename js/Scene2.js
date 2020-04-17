@@ -96,7 +96,14 @@ class Scene2 extends Phaser.Scene {
        
           this.deathbyte=this.sound.add("death", {volume:2})
        
-          
+          this.add
+          .text(8900, 50, "Stay tuned for new levels \n Thanks for playing! ", {
+            font: "18px monospace",
+            fill: "#000000",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#ffffff"
+          })
+          .setScrollFactor(1).setDepth(4)
         
         }
 
