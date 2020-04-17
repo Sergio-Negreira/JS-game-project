@@ -77,22 +77,22 @@ class Scene2 extends Phaser.Scene {
     
         // instructions text
         this.add
-          .text(1500, 32, "Don't touch the spikes!", {
+          .text(2700, 32, "Don't touch the spikes! \nTry to reach the end! \n   Good luck!", {
             font: "18px monospace",
             fill: "#000000",
             padding: { x: 20, y: 10 },
             backgroundColor: "#ffffff"
           })
-          .setScrollFactor(1);
+          .setScrollFactor(1).setDepth(4)
       
         this.add
-          .text(16, 16, "Arrow/WASD to move & jump \n Try to reach the end!", {
+          .text(16, 50, "Use the Arrow/WASD keys to move \n To JUMP, use UP or W ", {
             font: "18px monospace",
             fill: "#000000",
             padding: { x: 20, y: 10 },
             backgroundColor: "#ffffff"
           })
-          .setScrollFactor(1);
+          .setScrollFactor(1).setDepth(4)
        
           this.deathbyte=this.sound.add("death", {volume:2})
        
