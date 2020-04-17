@@ -4,11 +4,11 @@ class Menu extends Phaser.Scene {
     }
 
     preload (){
-        this.load.image("background","./assets/images/menubackground.PNG")
-        this.load.image("title","./assets/images/titlefont.png")
-        this.load.image("click","./assets/images/ClicktoStart.png")
-        this.load.audio("titleMusic", "./assets/audio/Lucy In Disguise - Echoes In Time.mp3")
-        this.load.audio("startgameclip", "./assets/audio/startgameclip.mp3")
+        this.load.image("background","./JS-game-project/assets/images/menubackground.PNG")
+        this.load.image("title","./JS-game-project/assets/images/titlefont.png")
+        this.load.image("click","./JS-game-project/assets/images/ClicktoStart.png")
+        this.load.audio("titleMusic", "./JS-game-project/assets/audio/Lucy In Disguise - Echoes In Time.mp3")
+        this.load.audio("startgameclip", "./JS-game-project/assets/audio/startgameclip.mp3")
 
         var progressBar = this.add.graphics();
         var progressBox = this.add.graphics();
