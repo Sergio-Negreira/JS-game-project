@@ -69,7 +69,7 @@ class Menu extends Phaser.Scene {
         })
         playButton.on('pointerout', function (pointer) {
             this.clearTint();
-        });
+           });
         playButton.on('pointerup', function (pointer) {
             // this.clearTint()
             this.scene.start("playGame")
@@ -77,3 +77,4 @@ class Menu extends Phaser.Scene {
         }, this);
     }
 }
+

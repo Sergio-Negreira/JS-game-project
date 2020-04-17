@@ -1,6 +1,26 @@
 body {
-    font-family: 'Proxima nova';
     background-color: #616e80;
+}
+
+header  {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 1rem;
+    min-height: 200px;
+    background-image: url("./assets/images/welcometologo.png");
+    background-repeat:no-repeat;
+    background-position: center;
+    transform: scale(1.2);
+}
+
+
+#logo1 {
+    z-index: 3;
+    position: absolute;
+    background-image: url("./assets/images/welcometologo.png");
+    background-repeat:no-repeat;
+    background-position: center;
 }
 
 #myVideo {
@@ -9,29 +29,28 @@ body {
     bottom: 0;
     min-width: 100%;
     min-height: 100%;
-    z-index:-5;
+    z-index:-2;
   }
 
-
-#gamebox {
+#mainsection {
+    padding: 20px 25px;
+    margin: 0 20px;
+    display: flex; 
+    z-index: -1;
+    background-image: url("./assets/images/arcade\ box.png"); 
+    background-repeat:no-repeat;
+    background-position: center;
+}
+#canvas {
     padding-left: 0;
     padding-right: 0;
     margin-left: auto;
     margin-right: auto;
+    
     display: block;
-    z-index: -1;
-}
-
-#arcadebox {
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
     z-index: 1;
-}
+    transform: scale(.8);
+    margin-bottom: 115px;
+    border-radius: 55px;
 
-#wrapper {
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    z-index: 1;
 }
