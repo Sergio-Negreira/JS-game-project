@@ -3,7 +3,7 @@ class Scene2 extends Phaser.Scene {
     super ("playGame")
 }
     preload() {
-        this.load.spritesheet("player","../assets/spritesheets/0x72-industrial-player-32px-extruded.png",
+        this.load.spritesheet("player","./assets/spritesheets/0x72-industrial-player-32px-extruded.png",
           {
             frameWidth: 32,
             frameHeight: 32,
@@ -11,10 +11,10 @@ class Scene2 extends Phaser.Scene {
             spacing: 2
           }
         );
-        this.load.image("spike", "../assets/images/0x72-industrial-spike.png");
-        this.load.image("tiles", "../assets/tilesets/0x72-industrial-tileset-32px-extruded.png");
-        this.load.tilemapTiledJSON("map", "../assets/tilemaps/singlemap.json");
-        this.load.audio("death","../assets/audio/death.mp3")
+        this.load.image("spike", "./assets/images/0x72-industrial-spike.png");
+        this.load.image("tiles", "./assets/tilesets/0x72-industrial-tileset-32px-extruded.png");
+        this.load.tilemapTiledJSON("map", "./assets/tilemaps/singlemap.json");
+        this.load.audio("death","./assets/audio/death.mp3")
       
       }
 

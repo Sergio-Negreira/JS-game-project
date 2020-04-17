@@ -33,12 +33,12 @@ class Player {
       d: D
     });
   }
-  preload(){
-    this.load.audio("jumpsound","../assets/audio/jumpsound.mp3")
-  }
-  create (){
-    this.jumpsound=this.sound.add("jumpsound", {volume:.5})
-  }
+  // preload(){
+  //   this.load.audio("jumpsound","./assets/audio/jumpsound.mp3")
+  // }
+  // create (){
+  //   this.jumpsound=this.sound.add("jumpsound", {volume:.5})
+  // }
   freeze() {
     this.sprite.body.moves = false;
   }
