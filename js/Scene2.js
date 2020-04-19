@@ -107,9 +107,9 @@ class Scene2 extends Phaser.Scene {
         
         }
 
-        // funcNextLevel (player,nextLevel){
-        //  this.scene.start("Menu")
-        // }
+        funcNextLevel (player,nextLevel){
+         this.scene.start("Menu")
+        }
         
 
       update() {
